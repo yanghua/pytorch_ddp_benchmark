@@ -119,7 +119,6 @@ class SafeLanceFeatureDataset(SafeLanceDataset):
     #    return self.get_items([idx])
 
     def __getitems__(self, indices):
-        print("=============__getitems__")
         if self._ds is None:
             # Worker-process initialization
             import os
@@ -279,8 +278,6 @@ def run_load_test(rank, world_size, args):
         # (hang, crash, etc.)
         for i, batch_data in enumerate(dataloader):
             # --- Measure Load Time ---
-            #print(f"++++++++++++++ The batch data is {len(batch_data)}, the i is {i}")
-            print(f"Batch {i} shape: {batch_data.shape}")
             batch_load_end_time = time.time()
             current_load_time = batch_load_end_time - batch_iter_start_time
             if rank == 0: interval_load_times.append(current_load_time)

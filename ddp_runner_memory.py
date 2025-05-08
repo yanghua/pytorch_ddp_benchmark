@@ -112,7 +112,6 @@ class JsonFileDatasetVariableUnsafe(Dataset):
             raise RuntimeError(f"Rank {rank}: No matching files found in {data_dir}")
 
     def __len__(self):
-        print(f"+++++++++++++{len(self.file_paths)}")
         return len(self.file_paths)
 
     def __getitem__(self, idx):
