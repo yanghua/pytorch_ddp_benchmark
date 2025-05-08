@@ -1,0 +1,2 @@
+#torchrun --standalone --nnodes=1 --nproc_per_node=1 ddp_runner_via_lance.py --data_dir /test_different_vpc/lance_100g.lance --file_prefix vardata --batch_size 4 --num_workers 8 --epochs 10000 --log_interval 20 --prefetch_factor 8
+torchrun --standalone --nnodes=1 --nproc_per_node=1 ddp_runner_via_lance.py --data_dir ./1glance --file_prefix vardata --batch_size 4 --num_workers 8 --epochs 10000 --log_interval 20 --prefetch_factor 8

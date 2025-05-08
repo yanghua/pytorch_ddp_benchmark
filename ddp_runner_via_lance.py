@@ -93,6 +93,7 @@ class LanceFeatureDataset(Dataset):
         # 处理最大样本限制
         self.max_samples = max_samples or self.total_samples
         self.length = min(self.total_samples, self.max_samples)
+        self.mem_samples = None
 
     def __len__(self) -> int:
         return self.length
@@ -115,6 +116,10 @@ class LanceFeatureDataset(Dataset):
 
 class SafeLanceFeatureDataset(SafeLanceDataset):
 
+    def __init__():
+        super()
+        self.mem_samples = None
+
     #def __getitem__(self, idx):
     #    return self.get_items([idx])
 
@@ -124,6 +129,7 @@ class SafeLanceFeatureDataset(SafeLanceDataset):
             import os
 
             self._ds = lance.dataset(self.uri)
+            
             print(f"Worker {os.getpid()} initialized dataset")
 
         # Leverage native batch reading
@@ -131,6 +137,8 @@ class SafeLanceFeatureDataset(SafeLanceDataset):
 
         # Convert to python-native format
         rows = batch.to_pylist()
+        if self.mem_samples is not None:
+            return self.mem_samples
 
         # 创建样本列表（关键修改点）
         samples = []
@@ -151,6 +159,7 @@ class SafeLanceFeatureDataset(SafeLanceDataset):
                 f"数据形状应为 ({TARGET_FEATURE_DIM},), 实际为 {tensor_data.shape}"
 
             samples.append(tensor_data)
+        self.mem_samples = samples    
 
         # 返回样本列表而非堆叠后的张量（关键修改点）
         return samples
